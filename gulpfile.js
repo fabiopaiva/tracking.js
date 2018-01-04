@@ -14,7 +14,7 @@ var esformatter = require('gulp-esformatter');
 var runSequence = require('run-sequence');
 
 gulp.task('all', ['clean'], function() {
-  return runSequence(['build', 'build-data']);
+  return runSequence(['build', 'build-data', 'build-index']);
 });
 
 gulp.task('clean', function() {
@@ -65,6 +65,18 @@ gulp.task('build-data', function() {
     .pipe(uglify())
     .pipe(banner())
     .pipe(gulp.dest('build/data'));
+});
+
+gulp.task('build-index', function() {
+  return gulp.src('src/index.js')
+    .pipe(banner())
+    .pipe(gulp.dest('build'))
+    .pipe(rename({
+      suffix: '-min'
+    }))
+    .pipe(uglify())
+    .pipe(banner())
+    .pipe(gulp.dest('build'));
 });
 
 gulp.task('docs', function() {
